@@ -6,11 +6,17 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Laravel\Sanctum\HasApiTokens;
+
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
+    protected $hidden = [
+        'password',
+        'remember_token'
+    ];
     protected $fillable = [
         'id',
         'name',
@@ -19,14 +25,13 @@ class User extends Authenticatable
         'role',
     ];
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasApiTokens ;
 
     protected $table = 'users';
 
     protected function casts(): array
     {
         return [
-            
             'password' => 'hashed',
         ];
     }
